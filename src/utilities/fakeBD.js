@@ -1,0 +1,32 @@
+const addToCart = (id) => {
+  let shoppingCart = {};
+  //   get the previous shopping cart
+  const storedCart = localStorage.getItem("shopping-cart");
+  if (storedCart) {
+    shoppingCart = JSON.parse(storedCart);
+  }
+  // add quantity to shopping cart
+  const quantity = shoppingCart[id];
+  if (quantity) {
+    const newQuantity = quantity + 1;
+    shoppingCart[id] = newQuantity;
+  } else {
+    shoppingCart[id] = 1;
+  }
+
+  //   set the shopping cart
+  localStorage.setItem("shopping-cart", JSON.stringify(shoppingCart));
+};
+
+// এখানে শুধু লোকাল স্টোরেজ থেকে খোসা বা প্যাকেট টা নিছে, বাকি কাজ করা হবে কার্ট কম্পোনেনেট
+const getStoredCart = () => {
+  let shoppingCart = {};
+  //   get the previous shopping cart
+  const storedCart = localStorage.getItem("shopping-cart");
+  if (storedCart) {
+    shoppingCart = JSON.parse(storedCart);
+  }
+  return shoppingCart;
+};
+
+export { addToCart, getStoredCart };
