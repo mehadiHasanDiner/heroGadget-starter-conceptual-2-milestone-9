@@ -8,7 +8,7 @@ const productAndCartData = async () => {
   let cartArr = [];
   for (const id in savedCart) {
     const foundProduct = products.find((pd) => pd.id === id);
-    cartArr.push(foundProduct);
+
     if (foundProduct) {
       const quantity = savedCart[id];
       foundProduct.quantity = quantity;
