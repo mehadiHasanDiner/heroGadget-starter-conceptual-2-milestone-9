@@ -3,6 +3,7 @@ import CartItem from "./Cards/CartItem";
 import { deleteCartFromDb, removeFromCart } from "../utilities/fakeBD";
 import { useContext } from "react";
 import { CartContext } from "../App";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const [cart, setCart] = useContext(CartContext);
@@ -12,10 +13,7 @@ const Cart = () => {
     const remaining = cart.filter((c) => c.id !== id);
     setCart(remaining);
     removeFromCart(id);
-  };
-
-  const handleClearCart = () => {
-    deleteCartFromDb();
+    toast.error("Product Removed! 🔥");
   };
 
   let total = 0;
@@ -24,6 +22,27 @@ const Cart = () => {
       total = total + product.price * product.quantity;
     }
   }
+
+  // place order
+  const handleOrderPlace = () => {
+    if (cart.length > 0) {
+      setCart([]);
+      deleteCartFromDb();
+      return toast.success("Order Placed! 😊");
+    }
+    return toast.error("Cart is empty! 🔥");
+  };
+
+  // clear cart
+  // delete shopping cart
+  const handleClearCart = () => {
+    if (cart.length > 0) {
+      setCart([]);
+      deleteCartFromDb();
+      return toast.success("All items remove! 😊");
+    }
+    return toast.error("Cart is empty! 🔥");
+  };
 
   return (
     <>
@@ -60,7 +79,9 @@ const Cart = () => {
                 <button className="btn-outlined">Back To Shop</button>
               </Link>
             )}
-            <button className="btn-primary">Place Order</button>
+            <button onClick={handleOrderPlace} className="btn-primary">
+              Place Order
+            </button>
           </div>
         </div>
       </div>
