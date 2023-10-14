@@ -8,12 +8,28 @@ const Shop = () => {
   const products = useContext(ProductContext);
   const [cart, setCart] = useContext(CartContext);
 
-  console.log(products);
   // const productData = useLoaderData();
 
-  const handleAddToCart = (id) => {
-    addToCart(id);
+  const handleAddToCart = (product) => {
+    let newCart = [];
+    const exists = cart.find((e) => e.id === product.id);
+
+    if (!exists) {
+      product.quantity = 1;
+      newCart = [...cart, product];
+    } else {
+      const rest = cart.filer((e) => e.id !== product.id);
+      // console.log(rest);
+      exists.quantity = exists.quantity + 1;
+      newCart = [...rest, exists];
+    }
+    setCart(newCart);
+
+    addToCart(product.id);
   };
+  // newCart = [...cart, product]; ...cart = আগেরটা; product = নতুনটা
+  // newCart = [...rest, exists];  ...rest = আগেরটা; exists = নতুনটা
+
   return (
     <div className="product-container">
       {products.map((product, i) => (
